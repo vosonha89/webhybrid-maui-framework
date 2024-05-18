@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/MasonTech.WMF.Core/bin/Debug/net8.0
+/MasonTech.WMF.Core/obj
+/MasonTech.WMF.Test/bin/Debug
+/MasonTech.WMF.Test/obj
+/MasonTech.WMF.Test/MasonTech.WMF.Test.csproj.user
