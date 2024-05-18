@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <script type="module" src="/assets/blazor.webview.js"></script>
+</head>
+<body>
+    <div class="status-bar-safe-area"></div>
+    <div id="app" style="display: none"></div>
+    <div id="root" style="display: none"></div>
+
+    <script>
+        let dotNetObjRef;
+        function registerDotNetObjRef(dotNetObjRefFromCSharp) {
+            dotNetObjRef = dotNetObjRefFromCSharp;
+        }
+
+        const intervalCheckFramework = setInterval(() => {
+            if (dotNetObjRef) {
+                clearInterval(intervalCheckFramework);
+                document.getElementById('root').style.display = 'block';
+            }
+        }, 100);
+
+        async function returnArrayAsync(startPosition) {
+            const data = await dotNetObjRef.invokeMethodAsync('ActiveNativeMethod', { name: "ReturnArrayAsync", data: JSON.stringify(startPosition) });
+            alert(data);
+        };
+
+        async function getUsers() {
+            const data = await dotNetObjRef.invokeMethodAsync('ActiveNativeMethod',
+                {
+                    name: "GetUsers",
+                    data: JSON.stringify({
+                        pageIndex: 1,
+                        pageSize: 20
+                    })
+                });
+            alert(data);
+        };
+
+        function callCsharp() {
+            dotNetObjRef.invokeMethodAsync('CallCSharp')
+                .then(data => {
+                    console.log(data);
+                });
+        }
+
+        function csharpCallJS(message) {
+            console.log(message);
+        }
+    </script>
+    <script type="module" src="src/main.ts"></script>
+</body>
+</html>
